@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Detail - AI Nutrition Optimizer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+        }
+
+        .navbar {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            font-size: 32px;
+        }
+
+        .brand-name {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .recipe-hero {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .recipe-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 120px;
+        }
+
+        .recipe-header {
+            padding: 30px;
+        }
+
+        .recipe-title {
+            font-size: 36px;
+            color: #1a202c;
+            margin-bottom: 15px;
+        }
+
+        .recipe-meta {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+        }
+
+        .meta-icon {
+            font-size: 24px;
+        }
+
+        .meta-text {
+            font-size: 16px;
+        }
+
+        .recipe-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #f0f4ff;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            font-size: 24px;
+            color: #1a202c;
+            margin-bottom: 20px;
+        }
+
+        .ingredients-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .ingredient-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+        }
+
+        .ingredient-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .ingredient-icon {
+            font-size: 24px;
+        }
+
+        .ingredient-text {
+            flex: 1;
+            color: #1a202c;
+        }
+
+        .in-pantry-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: #d1fae5;
+            color: #065f46;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .need-to-buy-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: #fee2e2;
+            color: #991b1b;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .instructions-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .instruction-step {
+            display: flex;
+            gap: 15px;
+        }
+
+        .step-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-text {
+            flex: 1;
+            padding-top: 6px;
+            color: #1a202c;
+            line-height: 1.6;
+        }
+
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .nutrition-card {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .nutrition-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .nutrition-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .impact-metrics {
+            display: grid;
+            gap: 15px;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 8px;
+        }
+
+        .metric-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #1a202c;
+        }
+
+        .metric-icon {
+            font-size: 28px;
+        }
+
+        .metric-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .tag {
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: #e0e7ff;
+            color: #3730a3;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 968px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nutrition-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo-section">
+            <div class="logo">🍽️</div>
+            <div class="brand-name">AI Nutrition Optimizer</div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="recipe-hero">
+            <div class="recipe-image">🥗</div>
+            <div class="recipe-header">
+                <h1 class="recipe-title">Mediterranean Quinoa Power Bowl</h1>
+                <div class="recipe-meta">
+                    <div class="meta-item">
+                        <span class="meta-icon">⏱️</span>
+                        <span class="meta-text"><strong>30 min</strong></span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">👥</span>
+                        <span class="meta-text"><strong>2 servings</strong></span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">📊</span>
+                        <span class="meta-text"><strong>Easy</strong></span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">⭐</span>
+                        <span class="meta-text"><strong>4.8/5</strong> (124 reviews)</span>
+                    </div>
+                </div>
+                <div class="recipe-actions">
+                    <button class="btn btn-primary">Start Cooking</button>
+                    <button class="btn btn-secondary">Add to Meal Plan</button>
+                    <button class="btn btn-secondary">♥ Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div>
+                <div class="section">
+                    <h2>📋 Ingredients</h2>
+                    <div class="ingredients-list">
+                        <div class="ingredient-item">
+                            <input type="checkbox" class="ingredient-checkbox">
+                            <span class="ingredient-icon">🌾</span>
+                            <span class="ingredient-text">1 cup quinoa, uncooked</span>
+                            <span class="in-pantry-badge">In Pantry</span>
+                        </div>
+                        <div class="ingredient-item">
+                            <input type="checkbox" class="ingredient-checkbox">
+                            <span class="ingredient-icon">🥬</span>
+                            <span class="ingredient-text">2 cups fresh spinach</span>
+                            <span class="in-pantry-badge">In Pantry</span>
+                        </div>
+                        <div class="ingredient-item">
+                            <input type="checkbox" class="ingredient-checkbox">
+                            <span class="ingredient-icon">🍅</span>
+                            <span class="ingredient-text">1 cup cherry tomatoes, halved</span>
+                            <span class="in-pantry-badge">In Pantry</span>
+                        </div>
+                        <div class="ingredient-item">
+                            <input type="checkbox" class="ingredient-checkbox">
+                            <span class="ingredient-icon">🥒</span>
+                            <span class="ingredient-text">1 cucumber, diced</span>
+                            <span class="need-to-buy-badge">Need to Buy</span>
+                        </div>
+                        <div class="ingredient-item">
+                            <input type="checkbox" class="ingredient-checkbox">
+                            <span class="ingredient-icon">🧅</span>
+                            <span class="ingredient-text">1/2 red onion, thinly sliced</span>
+                            <span class="in-pantry-badge">In Pantry</span>
+                        </div>
+                        <div class="ingredient-item">
+                            <input type="checkbox" class="ingredient-checkbox">
+                            <span class="ingredient-icon">🫒</span>
+                            <span class="ingredient-text">1/2 cup Kalamata olives</span>
+                            <span class="need-to-buy-badge">Need to Buy</span>
+                        </div>
+                        <div class="ingredient-item">
+                            <input type="checkbox" class="ingredient-checkbox">
+                            <span class="ingredient-icon">🧀</span>
+                            <span class="ingredient-text">1/2 cup feta cheese, crumbled</span>
+                            <span class="need-to-buy-badge">Need to Buy</span>
+                        </div>
+                        <div class="ingredient-item">
+                            <input type="checkbox" class="ingredient-checkbox">
+                            <span class="ingredient-icon">🍋</span>
+                            <span class="ingredient-text">2 tbsp lemon juice</span>
+                            <span class="in-pantry-badge">In Pantry</span>
+                        </div>
+                        <div class="ingredient-item">
+                            <input type="checkbox" class="ingredient-checkbox">
+                            <span class="ingredient-icon">🫒</span>
+                            <span class="ingredient-text">3 tbsp olive oil</span>
+                            <span class="in-pantry-badge">In Pantry</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>👨‍🍳 Instructions</h2>
+                    <div class="instructions-list">
+                        <div class="instruction-step">
+                            <div class="step-number">1</div>
+                            <div class="step-text">Rinse quinoa under cold water. In a medium pot, combine quinoa with 2 cups of water. Bring to a boil, then reduce heat to low, cover, and simmer for 15 minutes until water is absorbed.</div>
+                        </div>
+                        <div class="instruction-step">
+                            <div class="step-number">2</div>
+                            <div class="step-text">While quinoa cooks, prepare your vegetables. Wash and chop the spinach, halve the cherry tomatoes, dice the cucumber, and thinly slice the red onion.</div>
+                        </div>
+                        <div class="instruction-step">
+                            <div class="step-number">3</div>
+                            <div class="step-text">In a small bowl, whisk together lemon juice, olive oil, salt, and pepper to create the dressing.</div>
+                        </div>
+                        <div class="instruction-step">
+                            <div class="step-number">4</div>
+                            <div class="step-text">Once quinoa is cooked, fluff it with a fork and let it cool for 5 minutes.</div>
+                        </div>
+                        <div class="instruction-step">
+                            <div class="step-number">5</div>
+                            <div class="step-text">In a large bowl, combine the quinoa, spinach, tomatoes, cucumber, red onion, and olives. Pour the dressing over and toss gently to combine.</div>
+                        </div>
+                        <div class="instruction-step">
+                            <div class="step-number">6</div>
+                            <div class="step-text">Divide into serving bowls and top with crumbled feta cheese. Serve immediately or refrigerate for up to 3 days.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="section">
+                    <h2>📊 Nutrition Facts</h2>
+                    <div class="nutrition-grid">
+                        <div class="nutrition-card">
+                            <span class="nutrition-value">450</span>
+                            <span class="nutrition-label">Calories</span>
+                        </div>
+                        <div class="nutrition-card">
+                            <span class="nutrition-value">18g</span>
+                            <span class="nutrition-label">Protein</span>
+                        </div>
+                        <div class="nutrition-card">
+                            <span class="nutrition-value">52g</span>
+                            <span class="nutrition-label">Carbs</span>
+                        </div>
+                        <div class="nutrition-card">
+                            <span class="nutrition-value">20g</span>
+                            <span class="nutrition-label">Fat</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>🌍 Impact Metrics</h2>
+                    <div class="impact-metrics">
+                        <div class="metric-row">
+                            <div class="metric-label">
+                                <span class="metric-icon">💰</span>
+                                <span>Cost per Serving</span>
+                            </div>
+                            <div class="metric-value">$4.25</div>
+                        </div>
+                        <div class="metric-row">
+                            <div class="metric-label">
+                                <span class="metric-icon">🌱</span>
+                                <span>Carbon Footprint</span>
+                            </div>
+                            <div class="metric-value">1.2kg CO2</div>
+                        </div>
+                        <div class="metric-row">
+                            <div class="metric-label">
+                                <span class="metric-icon">♻️</span>
+                                <span>Pantry Usage</span>
+                            </div>
+                            <div class="metric-value">67%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>🏷️ Tags</h2>
+                    <div class="tags">
+                        <div class="tag">Vegetarian</div>
+                        <div class="tag">Mediterranean</div>
+                        <div class="tag">High Protein</div>
+                        <div class="tag">Meal Prep</div>
+                        <div class="tag">Gluten-Free</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>💡 Tips</h2>
+                    <p style="color: #666; line-height: 1.6;">
+                        This recipe uses ingredients already in your pantry! The spinach and tomatoes are expiring soon (Oct 20), so this is a great way to reduce waste. You can substitute feta with any cheese you have on hand.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

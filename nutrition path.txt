@@ -1,0 +1,56 @@
+nutrition_ai_website/
+│
+├── data/                       # Original and processed datasets
+│   ├── raw/                    # Raw zipped or original CSV/Excel data
+│   ├── processed/              # Cleaned, normalized, joined data (CSV/Parquet)
+│   └── mappings/               # Ingredient/food mapping, vocabularies
+│
+├── notebooks/                  # Jupyter notebooks for EDA, prototyping, and model dev
+│   └── 01_data_cleaning.ipynb
+│   └── 02_feature_engineering.ipynb
+│   └── 03_model_training.ipynb
+│
+├── backend/                    # REST API backend (Flask, FastAPI, Django etc.)
+│   ├── app/                    # Application Python source
+│   │   ├── __init__.py
+│   │   ├── api.py              # Endpoints (predict, recommend, filter, etc.)
+│   │   ├── models/             # Model loading, inference logic
+│   │   │   └── recommender.py
+│   │   ├── data/               # Data wrangling, utilities, loaders
+│   │   │   └── __init__.py
+│   │   └── config.py
+│   ├── requirements.txt        # Backend dependencies
+│   ├── Dockerfile
+│   └── main.py                 # Entry point for API server
+│
+├── frontend/                   # Frontend UI code (React, Vue, or similar)
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   └── App.js
+│   ├── package.json
+│   └── README.md
+│
+├── models/                     # Trained machine learning models (saved .pkl, .joblib, .onnx, etc)
+│
+├── scripts/                    # Standalone data scripts (batch cleaning, nightly jobs)
+│   ├── build_dataset.py
+│   ├── ingredient_matcher.py
+│   ├── train_recommender.py
+│   └── eval_metrics.py
+│
+├── tests/                      # Unit and integration tests for backend and ML code
+│
+├── docs/                       # Documentation, architecture diagrams, API specs
+│   └── UI_Wireframes.pdf
+│   └── API_Spec.md
+│
+├── config/                     # YAML/JSON configs for paths, API keys, environment
+│   └── dev.yaml
+│   └── prod.yaml
+│
+├── .env                        # Environment variables for secrets, keys, DB connections
+├── README.md                   # Project overview/instructions
+├── docker-compose.yml          # Optional: full stack container orchestration
+└── LICENSE

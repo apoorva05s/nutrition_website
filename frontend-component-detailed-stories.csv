@@ -1,0 +1,315 @@
+Epic,Feature,Story ID,Component Name,Story Title,Story Description,Assigned To,APIs to Integrate,Dependencies,Story Points,Priority,Acceptance Criteria,Technical Implementation,Component Props/State,User Interactions
+Frontend Setup,Project Setup,FRONTEND-001,React Project,React Project Setup,"As a frontend developer, I need to set up the Next.js project with proper folder structure so that the team can develop components efficiently.",Person A,None,None,5,High,"- Next.js 14+ project initialized with TypeScript
+- Folder structure: components/, pages/, hooks/, utils/, types/, styles/
+- Tailwind CSS configured with custom theme
+- ESLint and Prettier configured
+- Environment variables setup for API endpoints","next create-next-app, TypeScript config, Tailwind CSS, folder structure setup","- API_BASE_URL in .env
+- Theme colors and typography
+- Global styles and CSS variables","- None (setup only)"
+Frontend Setup,Component Library,FRONTEND-002,BaseButton,Base Button Component,"As a frontend developer, I need a reusable button component so that all buttons have consistent styling and behavior.",Person A,None,FRONTEND-001,2,High,"- Primary, secondary, danger, ghost button variants
+- Loading state with spinner
+- Disabled state
+- Size variants: sm, md, lg
+- Icon support (left/right)
+- Click handler and proper accessibility","React component with TypeScript, CSS modules or Tailwind variants, accessibility attributes","Props: variant, size, loading, disabled, icon, onClick, children
+State: none (stateless)","- Click events
+- Keyboard navigation (Enter/Space)
+- Focus states"
+Frontend Setup,Component Library,FRONTEND-003,BaseInput,Base Input Component,"As a frontend developer, I need a reusable input component so that all forms have consistent styling and validation.",Person A,None,FRONTEND-001,3,High,"- Text, email, password, number input types
+- Label and placeholder support
+- Error state with error message display
+- Helper text support
+- Required field indicator
+- Proper accessibility and form integration","React Hook Form compatible, TypeScript props, validation styling","Props: type, label, placeholder, error, helperText, required, value, onChange
+State: internal focus state","- Input focus/blur
+- Validation feedback
+- Clear/show password toggle"
+Frontend Setup,Component Library,FRONTEND-004,BaseModal,Base Modal Component,"As a frontend developer, I need a modal component so that I can display overlays and dialogs consistently.",Person A,None,FRONTEND-001,3,Medium,"- Overlay with backdrop blur
+- Close on ESC key and backdrop click
+- Proper z-index management
+- Animation enter/exit
+- Scroll lock when open
+- Accessibility with focus trap","React Portal, focus-trap-react, animation library (Framer Motion)","Props: isOpen, onClose, title, children, size
+State: internal animation state","- Close button click
+- ESC key press
+- Backdrop click
+- Focus management"
+Authentication,User Registration,AUTH-UI-001,RegistrationForm,Registration Form Component,"As a user, I want a registration form so that I can create an account with my personal information and dietary preferences.",Person A,"POST /auth/register
+GET /settings/dietary-options","FRONTEND-003, AUTH-001",8,High,"- Multi-step form: Personal Info → Dietary Preferences → Verification
+- Real-time validation for email format and password strength
+- Password confirmation matching
+- Dietary preferences multi-select (load from API)
+- Progress indicator showing steps
+- Form submission with loading state and error handling","React Hook Form, Yup validation, stepper component, API integration with error handling","Props: onSubmit, loading
+State: currentStep, formData, dietaryOptions, errors, isSubmitting","- Step navigation (Next/Previous)
+- Form field interactions
+- Submit button with validation
+- Real-time password strength meter"
+Authentication,User Registration,AUTH-UI-002,EmailVerification,Email Verification Component,"As a user, I want to verify my email address so that I can activate my account.",Person A,POST /auth/verify-email,AUTH-UI-001,3,High,"- Email verification code input (6 digits)
+- Resend verification code functionality
+- Success/error state display
+- Auto-submit when 6 digits entered
+- Countdown timer for resend (60 seconds)","React Hook Form, timer hook, API integration","Props: email, onVerificationSuccess
+State: verificationCode, countdown, isVerifying, error","- Code input with auto-focus
+- Resend button interaction
+- Auto-submit on complete code"
+Authentication,User Login,AUTH-UI-003,LoginForm,Login Form Component,"As a user, I want a login form so that I can access my account securely.",Person A,"POST /auth/login
+POST /auth/refresh","FRONTEND-003, AUTH-004",5,High,"- Email and password input fields
+- Remember me checkbox functionality
+- Forgot password link
+- Form validation with clear error messages
+- Loading state during authentication
+- Redirect to dashboard on success","React Hook Form, Yup validation, localStorage for remember me, API integration","Props: onLoginSuccess, redirectUrl
+State: formData, isLoading, error, rememberMe","- Form field interactions
+- Submit button click
+- Remember me toggle
+- Forgot password link click"
+Authentication,User Profile,AUTH-UI-004,UserProfile,User Profile Management,"As a user, I want to manage my profile information so that I can update my personal details and preferences.",Person A,"GET /users/profile
+PUT /users/profile
+GET /users/dietary-preferences
+POST /users/dietary-preferences
+GET /users/allergens
+POST /users/allergens","FRONTEND-003, AUTH-006",10,Medium,"- Profile form with all user fields (name, height, weight, activity level)
+- Dietary preferences multi-select with save functionality
+- Allergen management with severity levels
+- Goal setting interface with target values
+- Profile picture upload with preview
+- Save confirmation and success feedback","React Hook Form, file upload component, multi-select component, API integration","Props: initialData
+State: profileData, dietaryPreferences, allergens, goals, avatar, isEditing, isSaving","- Edit mode toggle
+- Form field updates
+- Multi-select interactions
+- File upload for avatar
+- Save/Cancel actions"
+Navigation,App Layout,NAV-001,AppLayout,Main Application Layout,"As a user, I want consistent navigation so that I can easily access different sections of the application.",Person A,None,"FRONTEND-001, AUTH-UI-003",5,High,"- Header with logo and user menu
+- Sidebar navigation with active state
+- Responsive design (collapsible sidebar on mobile)
+- Breadcrumb navigation
+- Mobile hamburger menu
+- User avatar and logout functionality","React Router, responsive design, navigation state management","Props: children, currentUser
+State: sidebarOpen, currentPath","- Sidebar toggle
+- Navigation link clicks
+- User menu dropdown
+- Mobile menu interactions"
+Navigation,App Layout,NAV-002,Header,Application Header,"As a user, I want a header with navigation so that I can access my account and main features.",Person A,POST /auth/logout,NAV-001,3,Medium,"- Logo/brand name display
+- User avatar with dropdown menu
+- Quick access to Generate Meal Plan
+- Notifications icon with badge
+- Search bar for global search
+- Logout functionality","React component, dropdown menu, search component","Props: user, notificationCount
+State: userMenuOpen, searchQuery","- User menu toggle
+- Search input interactions
+- Logout button click
+- Notification click"
+Recipe Management,Recipe Search,RECIPE-UI-001,RecipeSearch,Recipe Search Interface,"As a user, I want to search for recipes so that I can find meals that match my preferences.",Person A,"GET /recipes
+GET /recipes/search
+GET /settings/dietary-options","FRONTEND-003, RECIPE-002",8,High,"- Search bar with autocomplete suggestions
+- Filter panel: cuisine, dietary restrictions, cook time, difficulty
+- Recipe grid/list view toggle
+- Sort options: rating, cook time, nutrition score
+- Infinite scroll or pagination
+- Loading states and empty results handling","React Hook Form, infinite scroll, filter components, debounced search","Props: onRecipeSelect
+State: searchQuery, filters, recipes, loading, hasMore, viewMode","- Search input with debouncing
+- Filter checkbox/select interactions
+- View mode toggle
+- Recipe card clicks
+- Load more/scroll interactions"
+Recipe Management,Recipe Search,RECIPE-UI-002,RecipeCard,Recipe Card Component,"As a user, I want to see recipe information in cards so that I can quickly evaluate recipes.",Person A,None,RECIPE-UI-001,3,Medium,"- Recipe image with fallback
+- Recipe title and rating display
+- Cuisine type and dietary tags
+- Cook time and difficulty indicators
+- Nutrition score badge
+- Cost estimate per serving
+- Add to meal plan quick action","React component, image optimization, tag components","Props: recipe, onSelect, onAddToMealPlan
+State: imageLoaded, isHovered","- Card click for details
+- Add to meal plan button
+- Hover effects for interactions"
+Recipe Management,Recipe Detail,RECIPE-UI-003,RecipeDetail,Recipe Detail Page,"As a user, I want to view complete recipe information so that I can cook the meal.",Person A,"GET /recipes/{id}
+GET /pantry","RECIPE-003, PANTRY-001",10,Medium,"- Recipe image and title display
+- Ingredient list with pantry status indicators
+- Checkable ingredient list for shopping
+- Step-by-step cooking instructions
+- Nutrition facts visualization (charts)
+- Impact metrics: cost, carbon footprint, pantry usage
+- Add to meal plan and favorite buttons","React component, charts library, checkbox list, responsive images","Props: recipeId
+State: recipe, pantryItems, checkedIngredients, loading, error","- Ingredient checkbox interactions
+- Add to meal plan button
+- Favorite toggle
+- Print recipe functionality"
+Recipe Management,Recipe Recommendations,RECIPE-UI-004,RecipeRecommendations,Recipe Recommendations,"As a user, I want to see recommended recipes so that I can discover new meals based on my preferences and pantry.",Person A,GET /recipes/recommendations,RECIPE-006,5,Medium,"- Personalized recipe cards with recommendation scores
+- Recommendation reasons display (pantry match, preferences)
+- Swipe/like functionality for feedback
+- Filter recommendations: pantry-based, trending, similar
+- Refresh recommendations button
+- Quick add to meal plan action","Swipeable cards component, recommendation reasoning, feedback tracking","Props: userId
+State: recommendations, currentIndex, userFeedback, loading","- Swipe gestures (like/dislike)
+- Filter button interactions
+- Refresh recommendations
+- Quick add actions"
+Pantry Management,Pantry Interface,PANTRY-UI-001,PantryManager,Pantry Management Interface,"As a user, I want to manage my pantry inventory so that I can track ingredients and expiry dates.",Person A,"GET /pantry
+POST /pantry
+PUT /pantry/{id}
+DELETE /pantry/{id}","FRONTEND-003, PANTRY-001",13,High,"- Pantry item grid with category tabs
+- Add new item form with ingredient search
+- Edit item modal with quantity and expiry date
+- Bulk actions: delete selected, mark as used
+- Search and filter functionality
+- CSV import/export functionality
+- Expiry date alerts with color coding","Data grid component, modal forms, file upload, date picker, search component","Props: none
+State: pantryItems, selectedItems, editingItem, showAddForm, filters, isLoading","- Category tab switches
+- Add/edit item form interactions
+- Bulk action selections
+- Search and filter inputs
+- CSV file upload"
+Pantry Management,Pantry Interface,PANTRY-UI-002,PantryItemCard,Pantry Item Card,"As a user, I want to see pantry items in cards so that I can quickly view and manage ingredients.",Person A,None,PANTRY-UI-001,3,Medium,"- Ingredient image and name
+- Quantity and unit display
+- Expiry date with color-coded status
+- Days until expiry calculation
+- Quick actions: edit, delete, mark as used
+- Location indicator (fridge, pantry, freezer)","React component, date calculations, status indicators","Props: item, onEdit, onDelete, onMarkUsed
+State: daysUntilExpiry, status","- Edit button click
+- Delete confirmation
+- Quick action buttons
+- Status color changes"
+Pantry Management,Pantry Analytics,PANTRY-UI-003,PantryAnalytics,Pantry Analytics Dashboard,"As a user, I want to see pantry analytics so that I can optimize my food usage and reduce waste.",Person A,GET /pantry/analytics,PANTRY-003,8,Medium,"- Usage statistics charts (bar/pie charts)
+- Waste reduction metrics with trends
+- Expiry calendar view with alerts
+- Cost tracking graphs over time
+- Category breakdown analysis
+- Actionable insights and recommendations","Chart.js or recharts, calendar component, data visualization","Props: timeframe
+State: analytics, chartData, insights, selectedMetric","- Time range selector
+- Chart hover interactions
+- Calendar date selections
+- Metric filter toggles"
+Meal Planning,Meal Plan Generator,MEAL-UI-001,MealPlanGenerator,Meal Plan Generator Interface,"As a user, I want to generate optimized meal plans so that I can balance nutrition, cost, and sustainability.",Person A,"POST /meal-plans/generate
+GET /meal-plans/generation/{id}/status
+GET /meal-plans/generation/{id}/results","ML-005, FRONTEND-003",15,High,"- Generation parameter form with preferences
+- Real-time Pareto front visualization with D3.js
+- Multiple meal plan cards with detailed metrics
+- Plan comparison table/interface
+- Generation progress tracking
+- Plan selection and confirmation workflow","D3.js for visualization, complex form handling, real-time updates, comparison components","Props: userPreferences
+State: generationParams, generationId, paretoSolutions, selectedPlans, isGenerating, progress","- Parameter form interactions
+- Chart interactions (hover, select)
+- Plan comparison toggles
+- Generation progress monitoring
+- Plan selection and confirmation"
+Meal Planning,Meal Plan Generator,MEAL-UI-002,ParetoFrontChart,Pareto Front Visualization,"As a user, I want to see the Pareto front visualization so that I can understand the trade-offs between different meal plans.",Person A,None,MEAL-UI-001,8,High,"- Interactive scatter plot with D3.js
+- Hover tooltips with plan details
+- Clickable points to select plans
+- Axis labels and legend
+- Zoom and pan functionality
+- Color coding by recommendation score","D3.js, interactive tooltips, responsive SVG","Props: solutions, onPlanSelect, selectedPlan
+State: hoveredPlan, zoomState","- Point hover for tooltips
+- Point click for selection
+- Zoom/pan interactions
+- Legend interactions"
+Meal Planning,Meal Plan Management,MEAL-UI-003,MealPlanDashboard,Meal Plan Dashboard,"As a user, I want to view my meal plans so that I can manage my weekly nutrition planning.",Person A,"GET /meal-plans
+GET /meal-plans/{id}","MEAL-007, FRONTEND-003",10,Medium,"- Weekly meal plan calendar view
+- Meal plan cards with key metrics
+- Plan status indicators (active, completed, archived)
+- Quick actions: activate, edit, duplicate, delete
+- Plan filtering and search
+- Plan history and favorites","Calendar component, card grid, filtering, responsive design","Props: currentWeek
+State: mealPlans, selectedPlan, viewMode, filters, loading","- Calendar navigation
+- Plan card interactions
+- Filter selections
+- Quick action buttons"
+Meal Planning,Meal Plan Management,MEAL-UI-004,MealPlanDetail,Meal Plan Detail View,"As a user, I want to see detailed meal plan information so that I can review and follow my nutrition plan.",Person A,"GET /meal-plans/{id}
+PUT /meal-plans/{id}/select","MEAL-007, XAI-001",8,Medium,"- Weekly calendar with meal details
+- Nutrition metrics dashboard
+- Shopping list preview and generation
+- XAI explanation display
+- Recipe links and quick view
+- Plan activation and sharing options","Calendar component, metrics dashboard, explanation display","Props: planId
+State: mealPlan, explanation, shoppingList, isActivating","- Calendar day interactions
+- Recipe quick view
+- Generate shopping list
+- Plan activation button"
+Shopping Lists,Shopping Interface,SHOP-UI-001,ShoppingList,Shopping List Interface,"As a user, I want to manage my shopping list so that I can efficiently purchase ingredients for my meal plans.",Person A,"GET /shopping-lists/{id}
+PUT /shopping-lists/{id}/items/{item_id}/purchase
+POST /shopping-lists/{id}/complete","SHOP-001, FRONTEND-003",8,Medium,"- Shopping list with checkable items
+- Category grouping (produce, dairy, etc.)
+- Store location optimization
+- Cost tracking with budget display
+- Notes and quantity editing
+- Share list functionality
+- Completion workflow","List component, checkbox interactions, category grouping, sharing","Props: listId
+State: shoppingList, checkedItems, totalCost, isCompleting","- Item checkbox interactions
+- Quantity editing
+- Notes addition
+- Share list action
+- Complete shopping workflow"
+Shopping Lists,Shopping Interface,SHOP-UI-002,ShoppingListGenerator,Shopping List Generator,"As a user, I want to generate shopping lists from meal plans so that I know what ingredients to buy.",Person A,"POST /shopping-lists/generate
+GET /pantry","SHOP-001, PANTRY-001",5,Medium,"- Meal plan selection dropdown
+- Pantry exclusion options
+- Store preference selection
+- Budget limit setting
+- Generation with progress indicator
+- Preview before finalizing","Form component, API integration, progress tracking","Props: mealPlanId
+State: generationParams, isGenerating, generatedList, pantryItems","- Meal plan selection
+- Pantry exclusion toggles
+- Store selection
+- Budget input
+- Generate button"
+Analytics,Analytics Dashboard,ANALYTICS-UI-001,AnalyticsDashboard,Analytics Dashboard,"As a user, I want to see my nutrition and spending analytics so that I can track my progress over time.",Person A,"GET /analytics/dashboard
+GET /analytics/insights
+GET /analytics/performance","ANALYTICS-001, FRONTEND-003",13,Medium,"- Summary metrics cards with trends
+- Interactive charts: spending, nutrition scores, sustainability
+- Time range selector (week, month, year)
+- Goal progress tracking
+- Achievement display
+- Insight recommendations
+- Export functionality","Chart.js/D3.js, data visualization, responsive design, export functionality","Props: userId
+State: analytics, timeRange, chartData, insights, achievements","- Time range selection
+- Chart hover interactions
+- Export button
+- Achievement clicks
+- Insight action buttons"
+Analytics,Analytics Dashboard,ANALYTICS-UI-002,MetricsCard,Metrics Summary Card,"As a user, I want to see key metrics in cards so that I can quickly understand my progress.",Person A,None,ANALYTICS-UI-001,3,Low,"- Metric value with trend indicator
+- Percentage change from previous period
+- Color-coded status (good/warning/bad)
+- Click to drill down to details
+- Loading skeleton state","React component, trend calculations, responsive design","Props: metric, value, trend, onClick
+State: isLoading","- Card click for details
+- Hover effects"
+Analytics,Analytics Dashboard,ANALYTICS-UI-003,AchievementsList,Achievements Display,"As a user, I want to see my achievements so that I can track my nutrition and sustainability milestones.",Person A,GET /analytics/insights,ANALYTICS-UI-001,5,Low,"- Achievement cards with icons and descriptions
+- Progress bars for ongoing achievements
+- Earned date and points display
+- Social sharing options
+- Achievement categories filter
+- Unlock animations","Achievement cards, progress bars, animations, social sharing","Props: achievements
+State: filter, selectedAchievement","- Achievement card clicks
+- Filter selections
+- Share button interactions"
+Dashboard,Main Dashboard,DASH-UI-001,MainDashboard,Main User Dashboard,"As a user, I want a comprehensive dashboard so that I can see an overview of my nutrition planning.",Person A,"GET /users/profile
+GET /meal-plans
+GET /pantry/expiring
+GET /analytics/dashboard","AUTH-006, MEAL-007, PANTRY-003, ANALYTICS-001",10,High,"- Welcome section with personalized greeting
+- Key metrics cards: nutrition score, weekly cost, carbon footprint
+- Current meal plan overview
+- Expiring items alerts
+- Quick actions: generate meal plan, add pantry item
+- Recent activity feed","Dashboard layout, metrics cards, activity feed, responsive design","Props: currentUser
+State: dashboardData, isLoading, quickActions","- Quick action buttons
+- Metric card clicks
+- Alert interactions
+- Activity feed scrolling"
+Common,Loading States,COMMON-UI-001,LoadingSpinner,Loading Spinner Component,"As a user, I want to see loading indicators so that I know the application is processing my requests.",Person A,None,FRONTEND-001,1,Medium,"- Spinner animation with customizable size
+- Optional loading text
+- Overlay option for full-screen loading
+- Color theme consistency
+- Accessibility attributes","CSS animations, responsive sizing","Props: size, text, overlay, color
+State: none (stateless)","- None (display only)"
+Common,Error Handling,COMMON-UI-002,ErrorBoundary,Error Boundary Component,"As a developer, I need error boundaries so that the application gracefully handles JavaScript errors.",Person A,None,FRONTEND-001,3,Medium,"- Catch JavaScript errors in component tree
+- Display fallback UI with error message
+- Error reporting to monitoring service
+- Retry functionality for recoverable errors
+- Development vs production error display","React Error Boundary, error reporting service","Props: fallback, onError
+State: hasError, error","- Retry button click
+- Error reporting"
+Common,Form Validation,COMMON-UI-003,FormErrorDisplay,Form Error Display,"As a user, I want to see clear error messages so that I can fix form validation issues.",Person A,None,FRONTEND-003,2,Low,"- Error message display with icon
+- Multiple error support
+- Field-specific error highlighting
+- Animated error appearance
+- Accessible error announcements","React component, accessibility, animations","Props: errors, fieldName
+State: none (stateless)","- None (display only)"
